@@ -1,0 +1,78 @@
+////////////////////////////// Sur Arduino
+
+installer la librairie Radiohead (la mettre dans le dossier library du dossier Arduino)
+
+A télécharger ici :
+http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.50.zip
+
+Puis dans les exemples de la librairie démarrer "nrf24_reliable_datagram_client.pde"
+
+IMPORTANT : il faut au début des scripts indiquer les Pin de CE et CSN :
+	 RH_NRF24 driver(9, 10); 
+	 
+	 
+Branchement du module :
+Arduino → nRF24L01+
+
+3.3V → VCC
+GND → GND
+D8 → IRQ
+D9 → CE
+D10 → CSN
+D11 → MOSI
+D12 → MISO
+D13 → SCK
+
+(modules à 8pins :
+1 GND	2 VCC
+3 CE	4 CSN
+5 SCK	6 MOSI
+7 MISO	9 IRQ
+Le GND est repéré par un petit cadre
+)
+
+
+
+/////////////////////////////////// SUR RASPI
+
+Se mettre dans le dossier où on veut installer les lib
+(pour moi : cd /opt/)
+	//si nécessaire :
+	sudo apt-get install unzip
+	wget http://www.airspayce.com/mikem/bcm2835/bcm2835-1.46.tar.gz
+	tar zxvf bcm2835-1.46.tar.gz
+	cd bcm2835-1.46
+	./configure
+	make
+	sudo make check
+	sudo make install
+	cd ..
+	
+	wget http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.50.zip
+	unzip RadioHead-1.50.zip
+	rm RadioHead-1.50.zip
+	cd RadioHead/examples/raspi
+	make
+	sudo ./RasPiRH
+	
+Le server (manager) se lance et attend de recevoir quelque chose d'un client.
+	
+	
+
+For Raspberry Pi with Sparkfun WRL-00691
+
+*      Raspberry Pi P1 pin          NRF24
+*              3.3V      -----------VCC   
+*          GPIO25      22-----------CE   (chip enable in)
+*          GPIO8       24----------CSN   (chip select in)
+*          GPIO11      23----------SCK   (SPI clock in)
+*          GPIO10      19----------SDI   (SPI Data in)
+*          GPIO9       21----------SDO   (SPI data out)
+*                                  IRQ   (Interrupt output, not connected)
+*             GND       6----------GND   (ground in)
+
+
+sources :
+http://www.airspayce.com/mikem/bcm2835/
+http://www.airspayce.com/mikem/arduino/RadioHead/index.html
+http://www.airspayce.com/mikem/arduino/RadioHead/classRH__NRF24.html

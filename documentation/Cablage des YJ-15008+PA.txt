@@ -1,0 +1,97 @@
+/////////////////////////////////////////////////AVeC ARDUINO
+http://www.elecfreaks.com/wiki/index.php?title=2.4G_Wireless_nRF24L01p_with_PA_and_LNA
+
+Le GND est repéré par un petit cadre
+1 GND	2 VCC
+3 CE	4 CSN
+5 SCK	6 MOSI
+7 MISO	9 IRQ
+
+
+Arduino → nRF24L01+
+
+3.3V → VCC
+GND → GND
+D8 → IRQ
+D9 → CE
+D10 → CSN
+D11 → MOSI
+D12 → MISO
+D13 → SCK
+
+
+
+REMARQUES IMPORTANTES :
+
+--Dans RadioHead, il faut au début des scripts indiquer les Pin de CE et CSN
+	 RH_NRF24 driver(9, 10); 
+
+--Ces modules NRF24 longue portée ne fonctionnent bien qu'avec l'antenne droite... Surtout ne pas les plier !
+
+
+////////////////////////////////////////////////// AVEC RASPBERRY PI
+
+
+http://www.airspayce.com/mikem/arduino/RadioHead/classRH__NRF24.html
+
+
+
+For Raspberry Pi with Sparkfun WRL-00691
+
+*      Raspberry Pi P1 pin          Sparkfun WRL-00691
+*              5V      2-----------VCC   (3.3V to 7V in)
+*          GPIO25      22-----------CE   (chip enable in)
+*          GPIO8       24----------CSN   (chip select in)
+*          GPIO11      23----------SCK   (SPI clock in)
+*          GPIO10      19----------SDI   (SPI Data in)
+*          GPIO9       21----------SDO   (SPI data out)
+*                                  IRQ   (Interrupt output, not connected)
+*             GND       6----------GND   (ground in)
+*  
+and initialise like this:
+
+*   RH_NRF24 nrf24(RPI_V2_GPIO_P1_22, RPI_V2_GPIO_P1_24);
+*  
+See the example program and Makefile in examples/raspi. Requires bcm2835 library to be previously installed.
+
+*  cd examples/raspi
+*  make
+*  sudo ./RasPiRH
+*  
+* 
+*  You can override the default settings for the CSN and CE pins 
+*  in the NRF24() constructor if you wish to connect the slave select CSN to other than the normal one for your 
+*  Arduino (D10 for Diecimila, Uno etc and D53 for Mega)
+* 
+*  Caution: on some Arduinos such as the Mega 2560, if you set the slave select pin to be other than the usual SS 
+*  pin (D53 on  Mega 2560), you may need to set the usual SS pin to be an output to force the Arduino into SPI 
+*  master mode.
+* 
+*  Caution: this module has not been proved to work with Leonardo, at least without level 
+*  shifters between the nRF24 and the Leonardo. Tests seem to indicate that such level shifters would be required
+*  with Leonardo to make it work.
+* 
+*  It is possible to have 2 radios conected to one arduino, provided each radio has its own 
+*  CSN and CE line (SCK, SDI and SDO are common to both radios)
+* 
+*  \par SPI Interface
+* 
+*  You can interface to nRF24L01 with with hardware or software SPI. Use of software SPI with the RHSoftwareSPI 
+*  class depends on a fast enough processor and digitalOut() functions to achieve a high enough SPI bus frequency.
+*  If you observe reliable behaviour with the default hardware SPI RHHardwareSPI, but unreliable behaviour 
+*  with Software SPI RHSoftwareSPI, it may be due to slow CPU performance.
+* 
+*  Initialisation example with hardware SPI
+*  \code
+*  #include <RH_NRF24.h>
+*  RH_NRF24 driver;
+*  RHReliableDatagram manager(driver, CLIENT_ADDRESS);
+*  
+Initialisation example with software SPI
+
+*  #include <RH_NRF24.h>
+*  #include <RHSoftwareSPI.h>
+*  RHSoftwareSPI spi;
+*  RH_NRF24 driver(8, 10, spi);
+*  RHReliableDatagram manager(driver, CLIENT_ADDRESS);
+*  
