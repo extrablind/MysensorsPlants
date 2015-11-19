@@ -51,6 +51,8 @@ Se mettre dans le dossier où on veut installer les lib
 	wget http://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.50.zip
 	unzip RadioHead-1.50.zip
 	rm RadioHead-1.50.zip
+	// le dossier raspi-dev présent dans ce git peut être copié dans /opt/RadioHead/examples
+	// et on va dans ce dossier à la place de raspi ci-dessous pour un server qui répond au client
 	cd RadioHead/examples/raspi
 	make
 	sudo ./RasPiRH
