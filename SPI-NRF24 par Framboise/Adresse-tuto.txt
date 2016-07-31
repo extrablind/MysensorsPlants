@@ -1,0 +1,9 @@
+http://www.framboise314.fr/faire-dialoguer-un-raspberry-et-un-arduino-via-nrf24l01/
+
+
+
+
+REMARQUES :
+
+Pour Arduino il faut installer la lib RF24 Network pour que ça fontionne (elle inclus notamment la lib printf)
+
